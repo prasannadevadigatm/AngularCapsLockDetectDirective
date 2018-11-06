@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<style>
+.capslockWarningMsg {
+    display: none;
+}
+
+[capslock].capslockIsOn + .capslockWarningMsg {
+    display: block;
+    color: red;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+<body>
+    <div ng-app="myApp">
+        <input id="myInput" value="Some text.." class="" capslock />
+        <span class="capslockWarningMsg">WARNING!. Caplock is On</span>
+    </div>
+    <script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function($scope) {
+
+    });
+    app.directive("capslock", function($compile) {
+        return {
+            restrict: "A",
+            link: function(scope, elem, attrs) {
+                elem.on("keyup", function(event) {
+                    console.log('aaa', event);
+
+                    if (event.getModifierState("CapsLock")) {
+                        angular.element(elem).addClass('capslockIsOn');
+                    } else {
+                        angular.element(elem).removeClass('capslockIsOn');
+                    }
+                });
+            }
+        };
+    });
+    </script>
+</body>
+
+</html>
